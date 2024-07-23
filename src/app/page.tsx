@@ -1,23 +1,30 @@
 "use client";
+// require("dotenv").config();
 
 import { useState } from "react";
 import Image from "next/image";
 
 export default function Home() {
   const [email, setEmail] = useState("");
+  const URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  console.log("url" + URL);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Email submitted:", email);
 
     try {
-      const response = await fetch("http://localhost:3000/send-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
+      const response = await fetch(
+        `${URL}/send-email`,
+        // "https://newletterbackend-aaf1f25a0fba.herokuapp.com/send-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
 
       if (response.ok) {
         console.log("Email submitted:", email);
